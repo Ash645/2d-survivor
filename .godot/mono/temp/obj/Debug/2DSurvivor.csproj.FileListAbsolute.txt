@@ -15,3 +15,4 @@ D:\Godot\2d-survivor\.godot\mono\temp\obj\Debug\refint\2DSurvivor.dll
 D:\Godot\2d-survivor\.godot\mono\temp\obj\Debug\2DSurvivor.pdb
 D:\Godot\2d-survivor\.godot\mono\temp\obj\Debug\2DSurvivor.genruntimeconfig.cache
 D:\Godot\2d-survivor\.godot\mono\temp\obj\Debug\ref\2DSurvivor.dll
+D:\Godot\2d-survivor\.godot\mono\temp\obj\Debug\2DSurvivor.sourcelink.json
