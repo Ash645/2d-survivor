@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://dgawi81diers8"]
+
+[ext_resource type="Script" uid="uid://bubmur16riadc" path="res://scenes/game_object/basic_enemy/BasicEnemy.cs" id="1_gxg7h"]
+[ext_resource type="PackedScene" uid="uid://giqmpkr4java" path="res://scenes/components/health_component.tscn" id="2_isd1k"]
+[ext_resource type="Texture2D" uid="uid://jnd5cys1l4qt" path="res://scenes/game_object/basic_enemy/basic_enemy.png" id="2_xrbw7"]
+[ext_resource type="PackedScene" uid="uid://bbnrgxfe6xp6p" path="res://scenes/components/vial_drop_component.tscn" id="3_pcrk2"]
+[ext_resource type="PackedScene" uid="uid://ck40o6vmo5j2n" path="res://scenes/game_object/experience_vial/experience_vial.tscn" id="4_elloc"]
+[ext_resource type="PackedScene" uid="uid://cwh8elhsvn2sw" path="res://scenes/components/hurtbox_component.tscn" id="5_bq7hi"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bq7hi"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qrggj"]
+radius = 8.0
+
+[node name="BasicEnemy" type="CharacterBody2D" unique_id=767942794 groups=["enemy"]]
+collision_layer = 8
+collision_mask = 9
+motion_mode = 1
+script = ExtResource("1_gxg7h")
+
+[node name="HealthComponent" parent="." unique_id=407298283 instance=ExtResource("2_isd1k")]
+
+[node name="VialDropComponent" parent="." unique_id=1063258160 node_paths=PackedStringArray("health_component") instance=ExtResource("3_pcrk2")]
+experience_vial_scene = ExtResource("4_elloc")
+health_component = NodePath("../HealthComponent")
+
+[node name="HurtboxComponent" parent="." unique_id=644331334 node_paths=PackedStringArray("healthComponent") instance=ExtResource("5_bq7hi")]
+healthComponent = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent" unique_id=2094840040]
+position = Vector2(0, -8)
+scale = Vector2(1.225, 1.225)
+shape = SubResource("CircleShape2D_bq7hi")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=662440470]
+texture = ExtResource("2_xrbw7")
+offset = Vector2(0, -8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=363211307]
+position = Vector2(0, -8)
+shape = SubResource("CircleShape2D_qrggj")

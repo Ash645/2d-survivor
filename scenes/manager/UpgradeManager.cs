@@ -1,0 +1,61 @@
+using Godot;
+using Godot.Collections;
+using System;
+using System.Linq;
+
+public partial class UpgradeManager : Node
+{
+    [Export]
+    public Godot.Collections.Array<AbilityUpgrade> upgradePool;
+
+    [Export]
+    public ExperienceManager experienceManager;
+
+    [Export]
+    public PackedScene upgradeScreenScene;
+
+    public Dictionary currentUpgrades = new Dictionary();
+
+    public override void _Ready()
+    {
+        experienceManager.LevelUp += OnLevelUp;
+    }
+
+    public void OnLevelUp(int currentLevel)
+    {
+        var selectedUpgrade = upgradePool.PickRandom();
+        if (selectedUpgrade == null)
+            return;
+
+        var packedUpgrades = new Array<AbilityUpgrade>();
+        packedUpgrades.Add(selectedUpgrade);
+
+        var upgradeScreenInstance = upgradeScreenScene.Instantiate<UpgradeScreen>();
+        AddChild(upgradeScreenInstance);
+        upgradeScreenInstance.SetAbilityUpgrades(packedUpgrades);
+        upgradeScreenInstance.UpgradeSelected += OnUpgradeSelected;
+    }
+
+    public void applyUpgrade(AbilityUpgrade _upgrade)
+    {
+        Dictionary addChosenUpgrade;
+        if (!currentUpgrades.ContainsKey(_upgrade.id))
+        {
+            addChosenUpgrade = new Dictionary();
+            addChosenUpgrade["resource"] = _upgrade;
+            addChosenUpgrade["quantity"] = 1;
+        }
+        else
+        {
+            addChosenUpgrade = (Dictionary)currentUpgrades[_upgrade];
+            addChosenUpgrade["quantity"] = (int)addChosenUpgrade["quantity"] + 1;            
+        }
+        currentUpgrades[_upgrade.id] = addChosenUpgrade;
+        GD.Print(currentUpgrades);
+    }
+
+    public void OnUpgradeSelected(AbilityUpgrade _upgrade)
+    {
+        applyUpgrade(_upgrade);
+    }
+}
