@@ -14,7 +14,7 @@ public partial class UpgradeManager : Node
     [Export]
     public PackedScene upgradeScreenScene;
 
-    public Dictionary currentUpgrades = new Dictionary();
+    public Godot.Collections.Dictionary currentUpgrades = new Godot.Collections.Dictionary();
 
     public override void _Ready()
     {
@@ -47,10 +47,12 @@ public partial class UpgradeManager : Node
         }
         else
         {
-            addChosenUpgrade = (Dictionary)currentUpgrades[_upgrade];
+            addChosenUpgrade = (Dictionary)currentUpgrades[_upgrade.id];
             addChosenUpgrade["quantity"] = (int)addChosenUpgrade["quantity"] + 1;            
         }
         currentUpgrades[_upgrade.id] = addChosenUpgrade;
+        var gameEvents = GetNode<GameEvents>("/root/GameEvents");
+        gameEvents.EmitAbilityUpgradeAdded(_upgrade,currentUpgrades);
         GD.Print(currentUpgrades);
     }
 
