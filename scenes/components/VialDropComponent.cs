@@ -8,7 +8,8 @@ public partial class VialDropComponent : Node2D
 
     [Export]
     public PackedScene experience_vial_scene; // This is a reference to the PackedScene resource
-    [Export]
+    
+    [Export(PropertyHint.NodePathToEditedNode)]
     HealthComponent health_component; // This is a reference to the HealthComponent node that is a child of this VialDropComponent node. This allows the vial drop component to check the health of the enemy and drop an experience vial when the enemy dies.
 
     public override void _Ready()
@@ -25,7 +26,8 @@ public partial class VialDropComponent : Node2D
 
             if (vial_instance != null)
             {
-                GetTree().CurrentScene.AddChild(vial_instance); // Add the vial to the active scene so it does not get freed with the enemy.
+                var entities_layer = GetTree().GetFirstNodeInGroup("entities_layer");
+                entities_layer.AddChild(vial_instance); // Add the vial to the active scene so it does not get freed with the enemy.
                 vial_instance.GlobalPosition = spawn_position; // This sets the global position of the vial instance to the spawn position, which is the position of the enemy when it died. This will make the
             }
         }

@@ -25,7 +25,9 @@ public partial class EnemyManager : Node
         var spawn_position = player.GlobalPosition + (random_direction * spawn_radius); // This calculates the spawn position by adding the random direction vector multiplied by the spawn radius to the player's global position.
 
         var enemy = basic_enemy_scene.Instantiate() as Node2D; // This creates an instance of the basic enemy scene and casts it to a Node2D.
-        GetParent().AddChild(enemy); // This adds the enemy instance as a child of the parent node of this EnemyManager. You can change this to add it to a specific node in your scene tree if needed.
+        var entities_layer = GetTree().GetFirstNodeInGroup("entities_layer");
+
+        entities_layer.AddChild(enemy); // This adds the enemy instance as a child of the parent node of this EnemyManager. You can change this to add it to a specific node in your scene tree if needed.
         enemy.GlobalPosition = spawn_position; // This sets the global position of the enemy instance to
     }
 }

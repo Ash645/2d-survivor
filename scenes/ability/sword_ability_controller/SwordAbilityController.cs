@@ -60,7 +60,8 @@ public partial class SwordAbilityController : Node
             return;
 
         var swordInstance = swordAbility.Instantiate() as SwordAbility;
-        player.GetParent().AddChild(swordInstance);
+        var foreground_layer = GetTree().GetFirstNodeInGroup("foreground_layer");
+        foreground_layer.AddChild(swordInstance);
         
         swordInstance.hitboxComponent.damage = damage;
         swordInstance.GlobalPosition = enemies[0].GlobalPosition;

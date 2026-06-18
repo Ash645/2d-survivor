@@ -12,7 +12,15 @@ public partial class ArenaTimeManager : Node
 
     public float GetElapsedTime()
     {
-        return (float)(timer.WaitTime - timer.TimeLeft);
+        var player = GetTree().GetFirstNodeInGroup("player") as Node2D;
+        
+        if (player != null)
+        {
+            return (float)(timer.WaitTime - timer.TimeLeft);
+        }
+        var timeOfDeath = (float)(timer.WaitTime - timer.TimeLeft);
+        timer.Stop();
+        return timeOfDeath;
     }
 
 }

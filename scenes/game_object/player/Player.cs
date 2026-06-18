@@ -5,7 +5,23 @@ public partial class Player : CharacterBody2D
 {
     const int MAX_SPEED = 125; //This sets the maximum speed of the player.
     const int ACCELERATION_SMOOTHING = 20; //This sets the smoothing factor for acceleration, which controls how quickly the player reaches maximum speed. A higher value will make the player accelerate faster, while a lower value will make it accelerate more slowly.
-    
+
+    public int totalCollidingBodies = 0;
+
+    public HealthComponent  healthComponent;
+    public Timer  damageintervalTimer;
+
+    public override void _Ready()
+    {
+        var enemyCollision = GetNode("CollisionArea2D") as Area2D;
+        healthComponent = GetNode("HealthComponent") as HealthComponent;
+        damageintervalTimer = GetNode("%DamageIntervalTimer") as Timer;
+
+        //signals
+        damageintervalTimer.Timeout += OnDamageIntervalTimerTimeout;
+        enemyCollision.BodyEntered += OnBodyEntered;
+        enemyCollision.BodyExited += OnBodyExited;
+    }
     public override void _Process(double delta)
     {
         var movement_vector = GetMovementVector().Normalized(); //This gets the movement vector from the input.
@@ -20,5 +36,30 @@ public partial class Player : CharacterBody2D
         var x_movement = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left"); //This gets the strength of the "move_right" and "move_left" actions, and subtracts them to get the horizontal movement.
         var y_movement = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up"); //This gets the strength of the "move_down" and "move_up" actions, and subtracts them to get the vertical movement.
         return new Vector2(x_movement, y_movement).Normalized(); //This normalizes the movement vector, so that the player moves at the same speed in all directions.
+    }
+
+    public void CheckDealDamage()
+    {
+        if (totalCollidingBodies == 0 ||
+                !damageintervalTimer.IsStopped())
+            return;
+
+        healthComponent.Damage(1);
+        damageintervalTimer.Start();
+        GD.Print(healthComponent.currentHealth);
+    }
+    public void OnBodyEntered(Node2D _otherbody)
+    {
+        totalCollidingBodies +=1;
+        CheckDealDamage();
+    }
+    public void OnBodyExited(Node2D _otherbody)
+    {
+        totalCollidingBodies -=1;        
+    }
+
+    public void OnDamageIntervalTimerTimeout()
+    {
+        CheckDealDamage();
     }
 }

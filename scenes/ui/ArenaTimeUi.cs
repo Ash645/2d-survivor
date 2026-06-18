@@ -14,7 +14,9 @@ public partial class ArenaTimeUi : CanvasLayer
     }
     public override void _PhysicsProcess(double delta)
     {
-        if (arena_time_manager == null)
+        var player = GetTree().GetFirstNodeInGroup("player") as Node2D;
+        if (arena_time_manager == null ||
+                player == null)
             return;
         var time_elapsed = arena_time_manager.GetElapsedTime();
         timer_label.Text = format_seconds_to_string(time_elapsed); // This formats the elapsed time to 2 decimal places and appends "s" for seconds.
