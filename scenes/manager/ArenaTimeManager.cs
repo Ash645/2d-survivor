@@ -3,11 +3,14 @@ using System;
 
 public partial class ArenaTimeManager : Node
 {
+    [Export]
+    public PackedScene VictoryScene;
     private Timer timer;
 
     public override void _Ready()
     {
         timer = GetNode<Timer>("Timer");
+        timer.Timeout += OnTimerTimeout;
     }
 
     public float GetElapsedTime()
@@ -23,4 +26,9 @@ public partial class ArenaTimeManager : Node
         return timeOfDeath;
     }
 
+    public void OnTimerTimeout()
+    {
+        var victorySceneInstance = VictoryScene.Instantiate();
+        AddChild(victorySceneInstance);
+    }
 }
