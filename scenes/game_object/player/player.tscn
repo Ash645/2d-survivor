@@ -6,6 +6,17 @@
 [ext_resource type="PackedScene" uid="uid://fj7b28x4srmr" path="res://scenes/ability/sword_ability_controller/sword_ability_controller.tscn" id="3_gmlin"]
 [ext_resource type="PackedScene" uid="uid://wgua0wffaywt" path="res://scenes/ability/sword_ability/sword_ability.tscn" id="3_ss5pk"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pknkg"]
+bg_color = Color(0.24705882, 0.14901961, 0.19215687, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tj6oj"]
+bg_color = Color(0.2627451, 0.88235295, 0.7019608, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.24705882, 0.14901961, 0.19215687, 1)
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_s3670"]
 radius = 32.0
 
@@ -31,6 +42,20 @@ swordAbility = ExtResource("3_ss5pk")
 unique_name_in_owner = true
 wait_time = 0.5
 one_shot = true
+
+[node name="PlayerHealthBar" type="ProgressBar" parent="." unique_id=404477016]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 6)
+offset_left = -16.0
+offset_top = 3.0
+offset_right = 16.0
+offset_bottom = 9.0
+pivot_offset = Vector2(16, 3)
+theme_override_styles/background = SubResource("StyleBoxFlat_pknkg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_tj6oj")
+max_value = 1.0
+value = 0.5
+show_percentage = false
 
 [node name="PickupArea2D" type="Area2D" parent="." unique_id=1918895814]
 position = Vector2(0, -4)
