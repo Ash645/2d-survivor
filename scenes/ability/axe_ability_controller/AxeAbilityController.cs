@@ -6,6 +6,8 @@ public partial class AxeAbilityController : Node
     [Export]
     public PackedScene AxeAbilityScene;
 
+    public int damage = 10;
+
     public Timer axetimer;
 
     public override void _Ready()
@@ -26,10 +28,11 @@ public partial class AxeAbilityController : Node
         if (foreGround == null)
             return;
 
-        var axeAbilitySceneInstance = AxeAbilityScene.Instantiate() as Node2D;
+        var axeAbilitySceneInstance = AxeAbilityScene.Instantiate() as AxeAbility;
 
         foreGround.AddChild(axeAbilitySceneInstance);
-        foreGround.GlobalPosition = player.GlobalPosition;
+        axeAbilitySceneInstance.GlobalPosition = player.GlobalPosition;
+        axeAbilitySceneInstance.hitBoxcomponent.damage = damage;
     }
 
 }

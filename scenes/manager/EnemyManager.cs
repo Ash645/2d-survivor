@@ -8,7 +8,7 @@ public partial class EnemyManager : Node
 
     [Export]
     public Node ArenaTimeManager;
-    const int spawn_radius = 375; // This allows you to set the radius around the player where enemies will spawn in the Godot editor.
+    const int spawnRadius = 375; // This allows you to set the radius around the player where enemies will spawn in the Godot editor.
 
     public Timer enemySpawntimer;
     public double baseSpawntime = 0;
@@ -43,7 +43,7 @@ public partial class EnemyManager : Node
         for (int i = 0; i < 4; i++)
         {
             // This generates a random direction vector by rotating the right vector by a random angle between 0 and 2*PI radians.
-            spawn_position = player.GlobalPosition + (random_direction * spawn_radius); // This calculates the spawn position by adding the random direction vector multiplied by the spawn radius to the player's global position.
+            spawn_position = player.GlobalPosition + (random_direction * spawnRadius); // This calculates the spawn position by adding the random direction vector multiplied by the spawn radius to the player's global position.
 
             var queryParams = PhysicsRayQueryParameters2D.Create(player.GlobalPosition, spawn_position, 1);
             var result = GetTree().Root.World2D.DirectSpaceState.IntersectRay(queryParams);
