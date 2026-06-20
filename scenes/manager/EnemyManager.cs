@@ -24,11 +24,38 @@ public partial class EnemyManager : Node
 
     public void OnArenaDifficultyIncreased(int _difficulty)
     {
-        var timeOff = (.1/12) * _difficulty;
-        timeOff = Mathf.Min(timeOff,.7);
+        var timeOff = (.1 / 12) * _difficulty;
+        timeOff = Mathf.Min(timeOff, .7);
         GD.Print(timeOff);
         enemySpawntimer.WaitTime = baseSpawntime - timeOff;
     }
+
+    public Vector2 GetSpawnPosition()
+    {
+        var player = GetTree().GetFirstNodeInGroup("player") as Node2D;
+
+        if (player == null)
+            return Vector2.Zero;
+
+        var spawn_position = Vector2.Zero;
+        var random_direction = Vector2.Right.Rotated((float)GD.RandRange(0, Math.Tau));
+
+        for (int i = 0; i < 4; i++)
+        {
+            // This generates a random direction vector by rotating the right vector by a random angle between 0 and 2*PI radians.
+            spawn_position = player.GlobalPosition + (random_direction * spawn_radius); // This calculates the spawn position by adding the random direction vector multiplied by the spawn radius to the player's global position.
+
+            var queryParams = PhysicsRayQueryParameters2D.Create(player.GlobalPosition, spawn_position, 1);
+            var result = GetTree().Root.World2D.DirectSpaceState.IntersectRay(queryParams);
+
+            if (result.Count == 0)
+                break;
+            else
+                random_direction = random_direction.Rotated(Mathf.DegToRad(90));
+        }
+        return spawn_position;
+    }
+
     public void OnEnemySpawnTimerTimeout()
     {
         enemySpawntimer.Start();
@@ -37,13 +64,10 @@ public partial class EnemyManager : Node
         if (player == null)
             return;
 
-        var random_direction = Vector2.Right.Rotated((float)GD.RandRange(0, Math.Tau)); // This generates a random direction vector by rotating the right vector by a random angle between 0 and 2*PI radians.
-        var spawn_position = player.GlobalPosition + (random_direction * spawn_radius); // This calculates the spawn position by adding the random direction vector multiplied by the spawn radius to the player's global position.
-
         var enemy = basic_enemy_scene.Instantiate() as Node2D; // This creates an instance of the basic enemy scene and casts it to a Node2D.
         var entities_layer = GetTree().GetFirstNodeInGroup("entities_layer");
 
         entities_layer.AddChild(enemy); // This adds the enemy instance as a child of the parent node of this EnemyManager. You can change this to add it to a specific node in your scene tree if needed.
-        enemy.GlobalPosition = spawn_position; // This sets the global position of the enemy instance to
+        enemy.GlobalPosition = GetSpawnPosition(); // This sets the global position of the enemy instance to
     }
 }
