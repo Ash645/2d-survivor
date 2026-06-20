@@ -3,9 +3,8 @@ using System;
 
 public partial class Player : CharacterBody2D
 {
-    const int MAX_SPEED = 125; //This sets the maximum speed of the player.
-    const int ACCELERATION_SMOOTHING = 20; //This sets the smoothing factor for acceleration, which controls how quickly the player reaches maximum speed. A higher value will make the player accelerate faster, while a lower value will make it accelerate more slowly.
-
+    const int maxSpeed = 125; //This sets the maximum speed of the player.
+    const int accelerationSmoothing = 20; //This sets the smoothing factor for acceleration, which controls how quickly the player reaches maximum speed. A higher value will make the player accelerate faster, while a lower value will make it accelerate more slowly.
     public int totalCollidingBodies = 0;
 
     public HealthComponent  healthComponent;
@@ -29,8 +28,8 @@ public partial class Player : CharacterBody2D
     public override void _Process(double delta)
     {
         var movement_vector = GetMovementVector().Normalized(); //This gets the movement vector from the input.
-        var target_velocity = movement_vector * MAX_SPEED; //This sets the velocity of the player to the movement vector multiplied by the maximum speed.
-        Velocity = Velocity.Lerp(target_velocity, (float)(1.0f - Math.Exp(-delta * ACCELERATION_SMOOTHING))); //This smoothly interpolates the player's velocity towards the target velocity using an exponential function to create a smooth acceleration effect.
+        var target_velocity = movement_vector * maxSpeed; //This sets the velocity of the player to the movement vector multiplied by the maximum speed.
+        Velocity = Velocity.Lerp(target_velocity, (float)(1.0f - Math.Exp(-delta * accelerationSmoothing))); //This smoothly interpolates the player's velocity towards the target velocity using an exponential function to create a smooth acceleration effect.
         MoveAndSlide();
     }
 

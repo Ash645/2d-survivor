@@ -1,7 +1,5 @@
 using Godot;
 using Godot.Collections;
-using System;
-using System.Linq;
 
 public partial class UpgradeManager : Node
 {
@@ -9,7 +7,7 @@ public partial class UpgradeManager : Node
     public Godot.Collections.Array<AbilityUpgrade> upgradePool;
 
     [Export]
-    public ExperienceManager experienceManager;
+    public ExperienceManager ExperienceManager;
 
     [Export]
     public PackedScene upgradeScreenScene;
@@ -17,8 +15,19 @@ public partial class UpgradeManager : Node
     public Godot.Collections.Dictionary currentUpgrades = new Godot.Collections.Dictionary();
 
     public override void _Ready()
+    { 
+        if (ExperienceManager != null)
+        {
+            ExperienceManager.LevelUp += OnLevelUp;
+        }
+    }
+
+    public override void _ExitTree()
     {
-        experienceManager.LevelUp += OnLevelUp;
+        if (ExperienceManager != null)
+        {
+            ExperienceManager.LevelUp -= OnLevelUp;
+        }
     }
 
     public void OnLevelUp(int currentLevel)

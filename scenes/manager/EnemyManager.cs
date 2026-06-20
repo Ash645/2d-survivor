@@ -6,16 +6,32 @@ public partial class EnemyManager : Node
     [Export]
     public PackedScene basic_enemy_scene; // This allows you to assign a PackedScene in the Godot editor, which will be used to instantiate basic enemies.
 
+    [Export]
+    public Node ArenaTimeManager;
     const int spawn_radius = 375; // This allows you to set the radius around the player where enemies will spawn in the Godot editor.
+
+    public Timer enemySpawntimer;
+    public double baseSpawntime = 0;
 
     public override void _Ready()
     {
-        Timer enemy_spawn_timer = GetNode("Timer") as Timer; // This gets the Timer node that is a child of this EnemyManager node. You should have a Timer node in your scene tree for this to work.
-        enemy_spawn_timer.Timeout += OnEnemySpawnTimerTimeout; // This connects the Timeout signal of
+        enemySpawntimer = GetNode("Timer") as Timer; // This gets the Timer node that is a child of this EnemyManager node. You should have a Timer node in your scene tree for this to work.
+        enemySpawntimer.Timeout += OnEnemySpawnTimerTimeout; // This connects the Timeout signal of
+        baseSpawntime = enemySpawntimer.WaitTime;
+        var arenaTimeManager = ArenaTimeManager as ArenaTimeManager;
+        arenaTimeManager.ArenaDifficultyIncrease += OnArenaDifficultyIncreased;
     }
 
+    public void OnArenaDifficultyIncreased(int _difficulty)
+    {
+        var timeOff = (.1/12) * _difficulty;
+        timeOff = Mathf.Min(timeOff,.7);
+        GD.Print(timeOff);
+        enemySpawntimer.WaitTime = baseSpawntime - timeOff;
+    }
     public void OnEnemySpawnTimerTimeout()
     {
+        enemySpawntimer.Start();
         var player = GetTree().GetFirstNodeInGroup("player") as Node2D;
 
         if (player == null)

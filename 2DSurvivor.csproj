@@ -1,8 +1,9 @@
 <Project Sdk="Godot.NET.Sdk/4.7.0">
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
+    <CodeAnalysisRuleSet>d:\Godot\2d-survivor\.vscode\ruleset.xml</CodeAnalysisRuleSet>
     <TargetFramework Condition=" '$(GodotTargetPlatform)' == 'android' ">net9.0</TargetFramework>
     <EnableDynamicLoading>true</EnableDynamicLoading>
-    <RootNamespace>DSurvivor</RootNamespace>
+    <RootNamespace>2DSurvivor</RootNamespace>
   </PropertyGroup>
 </Project>

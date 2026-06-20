@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class VictoryScene : CanvasLayer
+public partial class EndScene : CanvasLayer
 {
     public Button restartButton;
     public Button quitButton;
@@ -12,6 +12,15 @@ public partial class VictoryScene : CanvasLayer
         quitButton = GetNode("%QuitButton") as Button;
         restartButton.Pressed += OnRestartButtonPressed;
         quitButton.Pressed += OnQuitButtonPressed;
+    }
+
+    public void SetDefeat()
+    {
+        var titleLabel = GetNode("%TitleLabel") as Label;
+        var descriptionLabel = GetNode("%DescriptionLabel") as Label;
+
+        titleLabel.Text ="Defeated!";
+        descriptionLabel.Text = "You lost!";
     }
 
     public void OnRestartButtonPressed()

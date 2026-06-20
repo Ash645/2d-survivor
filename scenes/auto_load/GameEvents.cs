@@ -7,6 +7,7 @@ public partial class GameEvents : Node
 
     [Signal]
     public delegate void AbilityUpgradeAddedEventHandler(AbilityUpgrade _upgrade,Godot.Collections.Dictionary _currentUpgrades);
+    
     public void EmitExperienceVialCollected(float experience)
     {
         EmitSignal(SignalName.ExperienceVialCollected, experience); // This method emits the experience_vial_collected signal with the given experience value. You can call this method from the on_area_entered method in the ExperienceVial class when an experience vial is collected.

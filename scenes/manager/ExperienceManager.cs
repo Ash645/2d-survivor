@@ -23,13 +23,13 @@ public partial class ExperienceManager : Node
     {
         currentExperience = Mathf.Min(currentExperience + experience, taragetExperience); //
         //GD.Print(currentExperience);// This method increments the current experience by the given amount. You can call this method whenever the player gains experience, such as after defeating an enemy or completing a task.
-        EmitSignal(SignalName.ExperienceUpdated,currentExperience,taragetExperience);
+        EmitSignal(SignalName.ExperienceUpdated, currentExperience, taragetExperience);
         if (currentExperience == taragetExperience)
         {
-            currentLevel +=1;
+            currentLevel += 1;
             taragetExperience += targetExperienceGrowth;
             currentExperience = 0;
-            EmitSignal(SignalName.ExperienceUpdated,currentExperience,taragetExperience);
+            EmitSignal(SignalName.ExperienceUpdated, currentExperience, taragetExperience);
             EmitSignal(SignalName.LevelUp, currentLevel);
         }
     }
@@ -37,12 +37,32 @@ public partial class ExperienceManager : Node
     public override void _Ready()
     {
         var gameEvents = GetNode<GameEvents>("/root/GameEvents");
-        gameEvents.ExperienceVialCollected += OnExperienceVialCollected; // This connects the experience_vial_collected signal from the GameEvents auto-load to the OnExperienceVialCollected method in this ExperienceManager. This allows the ExperienceManager to respond whenever an experience vial is collected.
+        gameEvents.ExperienceVialCollected += OnExperienceVialCollected;
+    }
+
+    /// <summary>
+    /// This removes the active or outdated signal listener from the autoload GameEvents
+    /// So that when game is restarteed, the GameEvent can listen to the new instance of ExperienceManager
+    /// 
+    /// This is because, ExperienceManager is the only object listening to GameEvent in it's _Ready() method
+    /// </summary>
+    public override void _ExitTree()
+    {
+        if (IsInstanceValid(GetNode<GameEvents>("/root/GameEvents")))
+        {
+            var gameEvents = GetNode<GameEvents>("/root/GameEvents");
+            gameEvents.ExperienceVialCollected -= OnExperienceVialCollected;
+        }
     }
 
     public float OnExperienceVialCollected(float experience)
     {
-        IncrementExperience(experience); // This method is called when the experience_vial_collected signal is emitted. It takes the experience value from the signal and calls the IncrementExperience method to update the current experience.
+        if (IsQueuedForDeletion())
+        {
+            return experience;
+        }
+
+        IncrementExperience(experience);
         return experience;
     }
 }
