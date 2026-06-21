@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 using System;
 
 public partial class Player : CharacterBody2D
@@ -7,17 +8,21 @@ public partial class Player : CharacterBody2D
     const int accelerationSmoothing = 20; //This sets the smoothing factor for acceleration, which controls how quickly the player reaches maximum speed. A higher value will make the player accelerate faster, while a lower value will make it accelerate more slowly.
     public int totalCollidingBodies = 0;
 
-    public HealthComponent  healthComponent;
-    public Timer  damageintervalTimer;
+    public HealthComponent healthComponent;
+    public Timer damageintervalTimer;
     public ProgressBar healthBar;
+    public Node abilities;
 
     public override void _Ready()
     {
         var enemyCollision = GetNode("CollisionArea2D") as Area2D;
+        abilities = GetNode("Abilities");
         healthComponent = GetNode("HealthComponent") as HealthComponent;
         damageintervalTimer = GetNode("%DamageIntervalTimer") as Timer;
         healthBar = GetNode("%PlayerHealthBar") as ProgressBar;
         healthComponent.HealthChanged += OnHealthChanged;
+        var gameEvents = GetNode<GameEvents>("/root/GameEvents");
+        gameEvents.AbilityUpgradeAdded += OnAbilityUpgradeAdded;
         UpdateHealthDisplay();
 
         //signals
@@ -58,12 +63,12 @@ public partial class Player : CharacterBody2D
     }
     public void OnBodyEntered(Node2D _otherbody)
     {
-        totalCollidingBodies +=1;
+        totalCollidingBodies += 1;
         CheckDealDamage();
     }
     public void OnBodyExited(Node2D _otherbody)
     {
-        totalCollidingBodies -=1;        
+        totalCollidingBodies -= 1;
     }
 
     public void OnDamageIntervalTimerTimeout()
@@ -74,5 +79,13 @@ public partial class Player : CharacterBody2D
     public void OnHealthChanged()
     {
         UpdateHealthDisplay();
+    }
+
+    public void OnAbilityUpgradeAdded(AbilityUpgrade _abilityUpgrade, Dictionary _currentUpgrades)
+    {
+        if (_abilityUpgrade is not Ability)
+            return;
+        var ability = _abilityUpgrade as Ability;
+        abilities.AddChild(ability.AbilityControllerScene.Instantiate());
     }
 }

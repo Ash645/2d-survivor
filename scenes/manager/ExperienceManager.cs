@@ -43,7 +43,7 @@ public partial class ExperienceManager : Node
     /// <summary>
     /// This removes the active or outdated signal listener from the autoload GameEvents
     /// So that when game is restarteed, the GameEvent can listen to the new instance of ExperienceManager
-    /// !this is crucial
+    /// ! this is crucial
     /// This is because, ExperienceManager is the only object listening to GameEvent in it's _Ready() method
     /// </summary>
     public override void _ExitTree()

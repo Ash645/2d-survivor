@@ -1,0 +1,12 @@
+[gd_resource type="Resource" format=3 uid="uid://m2twu78sen86"]
+
+[ext_resource type="PackedScene" uid="uid://ce8ypf7d0h0kl" path="res://scenes/ability/axe_ability_controller/axe_ability_controller.tscn" id="1_lxg8a"]
+[ext_resource type="Script" uid="uid://bjgq8melgl05b" path="res://resources/upgrades/Ability.cs" id="2_lxg8a"]
+
+[resource]
+script = ExtResource("2_lxg8a")
+AbilityControllerScene = ExtResource("1_lxg8a")
+id = "axe"
+name = "Axe"
+description = "An axe that spins outwards around the player every few seconds causing 10 damage"
+MinimumLevel = 3
