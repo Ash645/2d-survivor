@@ -6,6 +6,93 @@
 [ext_resource type="PackedScene" uid="uid://fj7b28x4srmr" path="res://scenes/ability/sword_ability_controller/sword_ability_controller.tscn" id="3_gmlin"]
 [ext_resource type="PackedScene" uid="uid://wgua0wffaywt" path="res://scenes/ability/sword_ability/sword_ability.tscn" id="3_ss5pk"]
 
+[sub_resource type="Animation" id="Animation_tj6oj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visuals/Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visuals/Sprite2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Visuals/Sprite2D:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_pknkg"]
+resource_name = "walk"
+length = 0.5
+loop_mode = 1
+step = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visuals/Sprite2D:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15126568, 0.3325237),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-1.1920929e-07, -3), Vector2(-5.9604645e-08, 2.3841858e-07)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visuals/Sprite2D:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.099105105, 0.21777043, 0.27384305, 0.3325237),
+"transitions": PackedFloat32Array(2.6390157, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -0.25297412, -0.016746148, 0.35567266, 4.3720007e-05]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Visuals/Sprite2D:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3755562, 0.4120686, 0.45510107),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1, 0.725), Vector2(1, 1.125), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rix40"]
+_data = {
+&"RESET": SubResource("Animation_tj6oj"),
+&"walk": SubResource("Animation_pknkg")
+}
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pknkg"]
 bg_color = Color(0.24705882, 0.14901961, 0.19215687, 1)
 
@@ -30,6 +117,9 @@ radius = 5.0
 collision_layer = 0
 motion_mode = 1
 script = ExtResource("1_dovo2")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=674050920]
+libraries/ = SubResource("AnimationLibrary_rix40")
 
 [node name="HealthComponent" parent="." unique_id=407298283 instance=ExtResource("2_tj6oj")]
 
@@ -58,6 +148,7 @@ value = 0.5
 show_percentage = false
 
 [node name="PickupArea2D" type="Area2D" parent="." unique_id=1918895814]
+visible = false
 position = Vector2(0, -4)
 collision_layer = 16
 collision_mask = 0
@@ -65,11 +156,14 @@ collision_mask = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PickupArea2D" unique_id=1013136628]
 shape = SubResource("CircleShape2D_s3670")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1213425556]
+[node name="Visuals" type="Node2D" parent="." unique_id=1791392460]
+
+[node name="Sprite2D" type="Sprite2D" parent="Visuals" unique_id=1213425556]
 texture = ExtResource("1_8afob")
 offset = Vector2(0, -8)
 
 [node name="CollisionArea2D" type="Area2D" parent="." unique_id=1826129079]
+visible = false
 position = Vector2(0, -7.225)
 collision_layer = 0
 collision_mask = 8
@@ -78,5 +172,6 @@ collision_mask = 8
 shape = SubResource("CircleShape2D_gqcf1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1737792241]
+visible = false
 position = Vector2(0, -5)
 shape = SubResource("CircleShape2D_dovo2")

@@ -1,6 +1,5 @@
 using Godot;
 using Godot.Collections;
-using System;
 
 public partial class Player : CharacterBody2D
 {
@@ -12,6 +11,8 @@ public partial class Player : CharacterBody2D
     public Timer damageintervalTimer;
     public ProgressBar healthBar;
     public Node abilities;
+    public AnimationPlayer playerAnimation;
+    public Node2D visuals;
 
     public override void _Ready()
     {
@@ -23,6 +24,8 @@ public partial class Player : CharacterBody2D
         healthComponent.HealthChanged += OnHealthChanged;
         var gameEvents = GetNode<GameEvents>("/root/GameEvents");
         gameEvents.AbilityUpgradeAdded += OnAbilityUpgradeAdded;
+        playerAnimation = GetNode("AnimationPlayer") as AnimationPlayer;
+        visuals = GetNode("Visuals") as Node2D;
         UpdateHealthDisplay();
 
         //signals
@@ -30,12 +33,31 @@ public partial class Player : CharacterBody2D
         enemyCollision.BodyEntered += OnBodyEntered;
         enemyCollision.BodyExited += OnBodyExited;
     }
+
     public override void _Process(double delta)
     {
         var movement_vector = GetMovementVector().Normalized(); //This gets the movement vector from the input.
         var target_velocity = movement_vector * maxSpeed; //This sets the velocity of the player to the movement vector multiplied by the maximum speed.
-        Velocity = Velocity.Lerp(target_velocity, (float)(1.0f - Math.Exp(-delta * accelerationSmoothing))); //This smoothly interpolates the player's velocity towards the target velocity using an exponential function to create a smooth acceleration effect.
+        Velocity = Velocity.Lerp(target_velocity, (float)(1.0f - System.Math.Exp(-delta * accelerationSmoothing))); //This smoothly interpolates the player's velocity towards the target velocity using an exponential function to create a smooth acceleration effect.
         MoveAndSlide();
+
+        if (movement_vector.X != 0 || movement_vector.Y != 0)
+        {
+            playerAnimation.Play("walk");
+        }
+        else
+        {
+            playerAnimation.Play("RESET");
+        }
+        var moveSign = Mathf.Sign(movement_vector.X);
+        if (moveSign == 0)
+        {
+            visuals.Scale = Vector2.One;
+        }
+        else
+        {
+            visuals.Scale = new Godot.Vector2(moveSign, 1);
+        }
     }
 
     private Vector2 GetMovementVector()
