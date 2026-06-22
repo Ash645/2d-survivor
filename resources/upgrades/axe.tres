@@ -9,4 +9,4 @@ AbilityControllerScene = ExtResource("1_lxg8a")
 id = "axe"
 name = "Axe"
 description = "An axe that spins outwards around the player every few seconds causing 10 damage"
-MinimumLevel = 3
+maxQuantity = 1

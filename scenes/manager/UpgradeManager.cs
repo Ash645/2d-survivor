@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using Godot;
@@ -36,10 +37,10 @@ public partial class UpgradeManager : Node
 
     public void applyUpgrade(AbilityUpgrade _upgrade)
     {
-        Dictionary addChosenUpgrade;
+        Dictionary addChosenUpgrade = new Dictionary();
+
         if (!currentUpgrades.ContainsKey(_upgrade.id))
         {
-            addChosenUpgrade = new Dictionary();
             addChosenUpgrade["resource"] = _upgrade;
             addChosenUpgrade["quantity"] = 1;
         }
@@ -51,7 +52,19 @@ public partial class UpgradeManager : Node
         currentUpgrades[_upgrade.id] = addChosenUpgrade;
         var gameEvents = GetNode<GameEvents>("/root/GameEvents");
         gameEvents.EmitAbilityUpgradeAdded(_upgrade, currentUpgrades);
+
+        CheckAbilityMaxQtyReached(currentUpgrades, _upgrade);
         GD.Print(currentUpgrades);
+    }
+
+    public void CheckAbilityMaxQtyReached(Godot.Collections.Dictionary _currentUpgrades, AbilityUpgrade _upgrade)
+    {
+        var upgradeData = (Dictionary)_currentUpgrades[_upgrade.id];
+        var quantity = (uint)upgradeData["quantity"];
+        if (quantity == _upgrade.maxQuantity)
+        {
+            upgradePool = new Godot.Collections.Array<AbilityUpgrade>(upgradePool.Where(poolUpgrade => poolUpgrade.id != _upgrade.id));
+        }
     }
 
     public Godot.Collections.Array<AbilityUpgrade> PickUpgrades()
@@ -61,7 +74,12 @@ public partial class UpgradeManager : Node
 
         for (int i = 1; i <= 2; i++)
         {
+            if (filteredUpgrades.Count == 0)
+            {
+                break;
+            }
             var selectedUpgrade = filteredUpgrades.PickRandom() as AbilityUpgrade;
+
             finalChosenUpgrades.Add(selectedUpgrade);
             filteredUpgrades = new Godot.Collections.Array<AbilityUpgrade>(filteredUpgrades.Where(upgrade => upgrade.id != selectedUpgrade.id));
         }
@@ -75,6 +93,10 @@ public partial class UpgradeManager : Node
 
     public void OnLevelUp(int currentLevel)
     {
+        if (upgradePool.Count == 0)
+        {
+            return;
+        }
         var upgradeScreenInstance = upgradeScreenScene.Instantiate<UpgradeScreen>();
         AddChild(upgradeScreenInstance);
 

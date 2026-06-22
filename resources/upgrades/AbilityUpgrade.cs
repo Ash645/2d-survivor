@@ -11,4 +11,7 @@ public partial class AbilityUpgrade : Resource
 
     [Export(PropertyHint.MultilineText)]
     public string description;
+
+    [Export]
+    public uint maxQuantity = 0;
 }
