@@ -129,6 +129,7 @@ scale = Vector2(1.225, 1.225)
 shape = SubResource("CircleShape2D_bq7hi")
 
 [node name="Visuals" type="Node2D" parent="." unique_id=478083265]
+unique_name_in_owner = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Visuals" unique_id=662440470]
 scale = Vector2(1, 1.205)

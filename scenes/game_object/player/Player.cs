@@ -50,11 +50,7 @@ public partial class Player : CharacterBody2D
             playerAnimation.Play("RESET");
         }
         var moveSign = Mathf.Sign(movement_vector.X);
-        if (moveSign == 0)
-        {
-            visuals.Scale = Vector2.One;
-        }
-        else
+        if (moveSign != 0)
         {
             visuals.Scale = new Godot.Vector2(moveSign, 1);
         }
