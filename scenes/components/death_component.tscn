@@ -66,14 +66,14 @@ particle_flag_disable_z = true
 direction = Vector3(0, -1, 0)
 spread = 30.0
 initial_velocity_min = 125.0
-initial_velocity_max = 200.0
-angular_velocity_min = -720.0
-angular_velocity_max = 719.99994
+initial_velocity_max = 350.0
+angular_velocity_min = -1440.0
+angular_velocity_max = 1440.0
 orbit_velocity_min = 9.49949e-08
 orbit_velocity_max = 9.49949e-08
 radial_velocity_min = -2.2351742e-05
 radial_velocity_max = -2.2351742e-05
-gravity = Vector3(0, 400, 0)
+gravity = Vector3(0, 800, 0)
 scale_curve = SubResource("CurveTexture_814u5")
 
 [node name="DeathComponent" type="Node2D" unique_id=1370250530]
@@ -88,7 +88,7 @@ unique_name_in_owner = true
 emitting = false
 amount = 1
 texture = ExtResource("1_814u5")
-lifetime = 0.65
+lifetime = 0.5
 one_shot = true
 fixed_fps = 0
 interpolate = false
