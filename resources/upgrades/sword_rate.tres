@@ -7,4 +7,4 @@ script = ExtResource("1_pyxp1")
 id = "sword_rate"
 name = "Sword swing rate"
 description = "The rate at which the sword swings is increased by 10%"
-maxQuantity = 2
+maxQuantity = 5

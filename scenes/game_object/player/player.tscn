@@ -5,13 +5,14 @@
 [ext_resource type="PackedScene" uid="uid://giqmpkr4java" path="res://scenes/components/health_component.tscn" id="2_tj6oj"]
 [ext_resource type="PackedScene" uid="uid://fj7b28x4srmr" path="res://scenes/ability/sword_ability_controller/sword_ability_controller.tscn" id="3_gmlin"]
 [ext_resource type="PackedScene" uid="uid://wgua0wffaywt" path="res://scenes/ability/sword_ability/sword_ability.tscn" id="3_ss5pk"]
+[ext_resource type="PackedScene" uid="uid://cqkylvuk5ihjp" path="res://scenes/components/visual_component.tscn" id="5_pknkg"]
 
 [sub_resource type="Animation" id="Animation_tj6oj"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Visuals/Sprite2D:position")
+tracks/0/path = NodePath("VisualComponent/Sprite2D:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -23,7 +24,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Visuals/Sprite2D:rotation")
+tracks/1/path = NodePath("VisualComponent/Sprite2D:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -35,7 +36,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Visuals/Sprite2D:scale")
+tracks/2/path = NodePath("VisualComponent/Sprite2D:scale")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -53,7 +54,7 @@ step = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Visuals/Sprite2D:position")
+tracks/0/path = NodePath("VisualComponent/Sprite2D:position")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -65,7 +66,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Visuals/Sprite2D:rotation")
+tracks/1/path = NodePath("VisualComponent/Sprite2D:rotation")
 tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -77,7 +78,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Visuals/Sprite2D:scale")
+tracks/2/path = NodePath("VisualComponent/Sprite2D:scale")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -156,9 +157,9 @@ collision_mask = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PickupArea2D" unique_id=1013136628]
 shape = SubResource("CircleShape2D_s3670")
 
-[node name="Visuals" type="Node2D" parent="." unique_id=1791392460]
+[node name="VisualComponent" parent="." unique_id=2106944416 instance=ExtResource("5_pknkg")]
 
-[node name="Sprite2D" type="Sprite2D" parent="Visuals" unique_id=1213425556]
+[node name="Sprite2D" type="Sprite2D" parent="VisualComponent" unique_id=1213425556]
 texture = ExtResource("1_8afob")
 offset = Vector2(0, -8)
 

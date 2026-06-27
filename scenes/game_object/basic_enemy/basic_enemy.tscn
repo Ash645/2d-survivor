@@ -2,18 +2,20 @@
 
 [ext_resource type="Script" uid="uid://bubmur16riadc" path="res://scenes/game_object/basic_enemy/BasicEnemy.cs" id="1_gxg7h"]
 [ext_resource type="PackedScene" uid="uid://giqmpkr4java" path="res://scenes/components/health_component.tscn" id="2_isd1k"]
-[ext_resource type="Texture2D" uid="uid://jnd5cys1l4qt" path="res://scenes/game_object/basic_enemy/basic_enemy.png" id="2_xrbw7"]
+[ext_resource type="Texture2D" uid="uid://dbxoolp3ssvb1" path="res://scenes/game_object/basic_enemy/basic_enemy.png" id="2_xrbw7"]
 [ext_resource type="PackedScene" uid="uid://bbnrgxfe6xp6p" path="res://scenes/components/vial_drop_component.tscn" id="3_pcrk2"]
 [ext_resource type="PackedScene" uid="uid://ck40o6vmo5j2n" path="res://scenes/game_object/experience_vial/experience_vial.tscn" id="4_elloc"]
 [ext_resource type="PackedScene" uid="uid://cwh8elhsvn2sw" path="res://scenes/components/hurtbox_component.tscn" id="5_bq7hi"]
 [ext_resource type="PackedScene" uid="uid://hc6x62unufjh" path="res://scenes/components/death_component.tscn" id="5_jkye5"]
+[ext_resource type="PackedScene" uid="uid://dqpgu8il7e2gw" path="res://scenes/components/velocity_component.tscn" id="5_v58qd"]
+[ext_resource type="PackedScene" uid="uid://cqkylvuk5ihjp" path="res://scenes/components/visual_component.tscn" id="8_t4oqy"]
 
 [sub_resource type="Animation" id="Animation_bq7hi"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Visuals/Sprite2D:scale")
+tracks/0/path = NodePath("VisualComponent/Sprite2D:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -25,7 +27,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Visuals/Sprite2D:rotation")
+tracks/1/path = NodePath("VisualComponent/Sprite2D:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -37,7 +39,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Visuals/Sprite2D:position")
+tracks/2/path = NodePath("VisualComponent/Sprite2D:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -55,7 +57,7 @@ step = 0.0033
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Visuals/Sprite2D:scale")
+tracks/0/path = NodePath("VisualComponent/Sprite2D:scale")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -67,7 +69,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Visuals/Sprite2D:rotation")
+tracks/1/path = NodePath("VisualComponent/Sprite2D:rotation")
 tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -79,7 +81,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Visuals/Sprite2D:position")
+tracks/2/path = NodePath("VisualComponent/Sprite2D:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -116,9 +118,13 @@ autoplay = &"walk"
 experience_vial_scene = ExtResource("4_elloc")
 health_component = NodePath("../HealthComponent")
 
+[node name="VelocityComponent" parent="." unique_id=95708167 instance=ExtResource("5_v58qd")]
+maxSpeed = 80
+acceleration = 1.0
+
 [node name="DeathComponent" parent="." unique_id=1370250530 node_paths=PackedStringArray("healthComponent", "sprite") instance=ExtResource("5_jkye5")]
 healthComponent = NodePath("../HealthComponent")
-sprite = NodePath("../Visuals/Sprite2D")
+sprite = NodePath("../VisualComponent/Sprite2D")
 
 [node name="HurtboxComponent" parent="." unique_id=644331334 node_paths=PackedStringArray("healthComponent") instance=ExtResource("5_bq7hi")]
 healthComponent = NodePath("../HealthComponent")
@@ -128,10 +134,9 @@ position = Vector2(0, -8)
 scale = Vector2(1.225, 1.225)
 shape = SubResource("CircleShape2D_bq7hi")
 
-[node name="Visuals" type="Node2D" parent="." unique_id=478083265]
-unique_name_in_owner = true
+[node name="VisualComponent" parent="." unique_id=2106944416 instance=ExtResource("8_t4oqy")]
 
-[node name="Sprite2D" type="Sprite2D" parent="Visuals" unique_id=662440470]
+[node name="Sprite2D" type="Sprite2D" parent="VisualComponent" unique_id=662440470]
 scale = Vector2(1, 1.205)
 texture = ExtResource("2_xrbw7")
 offset = Vector2(0, -8)

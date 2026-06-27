@@ -1,15 +1,15 @@
 using Godot;
 using System;
 
-public partial class BasicEnemy : CharacterBody2D
+public partial class WizardEnemy : CharacterBody2D
 {
-
     public VelocityComponent velocityComponent;
 
     public override void _Ready()
     {
         velocityComponent = GetNode("VelocityComponent") as VelocityComponent;
     }
+
 
     public override void _Process(double delta)
     {
@@ -19,4 +19,5 @@ public partial class BasicEnemy : CharacterBody2D
         velocityComponent.AccelerateToPlayer();
         velocityComponent.Move(this);
     }
+
 }

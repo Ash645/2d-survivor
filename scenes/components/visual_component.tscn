@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cqkylvuk5ihjp"]
+
+[ext_resource type="Script" uid="uid://cajgyg51i1gri" path="res://scenes/components/VisualComponent.cs" id="1_xli5t"]
+
+[node name="VisualComponent" type="Node2D" unique_id=2106944416]
+script = ExtResource("1_xli5t")
